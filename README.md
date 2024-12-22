@@ -16,3 +16,6 @@
    在项目根目录下执行：
    ```bash
    npm install
+
+2. 运行项目：
+   npm start
