@@ -19,3 +19,8 @@
 
 2. 运行项目命令：
    npm start
+   服务会默认在 http://localhost:3000 启动。
+
+3. 启动后，在浏览器中打开: http://localhost:3000
+   点击 Start Call 按钮，将开始与 GPT 的 WebRTC 通话。
+   点击 mute 按钮，关闭/开启麦克风。

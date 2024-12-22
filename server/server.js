@@ -12,6 +12,7 @@ app.use(express.static("public"));
 
 // 定义 /session 接口，用于向 OpenAI 请求一个实时通信所需的临时 Session 密钥
 app.get("/session", async (req, res) => {
+  console.log(process.env.OPENAI_API_KEY);
   try {
     // 调用 OpenAI Realtime API 的 /v1/realtime/sessions 接口，创建一个新的 session
     const response = await fetch("https://api.openai.com/v1/realtime/sessions", {

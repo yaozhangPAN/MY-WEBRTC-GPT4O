@@ -31,6 +31,7 @@ async function init() {
     // 1. 从服务器获取临时令牌 (ephemeral key)
     const tokenResponse = await fetch("/session");
     const data = await tokenResponse.json();
+    console.log(JSON.stringify(data));
     const EPHEMERAL_KEY = data.client_secret.value; // 从返回数据中提取 client_secret
 
     // 2. 创建 RTCPeerConnection 对象
@@ -81,15 +82,20 @@ async function init() {
 
     // （可选）示例：演示如何往数据通道发送事件
     // 这里举例发送一个“response.create”类型的事件，让 GPT 输出一段文字
-    const responseCreate = {
-      type: "response.create",
-      response: {
-        modalities: ["text"],            // 让 GPT 同时输出文字
-        instructions: "Write a haiku about code", // 让 GPT 写一句与代码相关的俳句
-      },
+    // 当 data channel 打开时执行的回调
+    dc.onopen = () => {
+      console.log("DataChannel is now open!");
+    
+      // 只有当 readyState 为 'open' 时，才能成功发送消息
+      const responseCreate = {
+        type: "response.create",
+        response: {
+          modalities: ["text"],
+          instructions: "Write a haiku about code",
+        },
+      };
+      dc.send(JSON.stringify(responseCreate));
     };
-    // 通过数据通道发送
-    dc.send(JSON.stringify(responseCreate));
 
   } catch (err) {
     console.error("Error during init:", err);
